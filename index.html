@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Quotania for quotes sharing">
+    <meta name="author" content="ghost_pap">
 
-    <title>Grayscale - Start Bootstrap Theme</title>
+    <title>Quotania</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -19,73 +16,74 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
-    <!-- Theme CSS -->
-    <link href="css/grayscale.css" rel="stylesheet">
-
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/quotania.css">
+    
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 </head>
+<body ng-app="quotania" ng-controller="quotController">
 
-<body id="page-top">
-    <!-- Navigation -->
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-                    Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i> <span class="light">Quotania</span>
-            </div>
+	<nav role="navigation" class="navbar navbar-fixed-top navbar-custom">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="#main" class="navbar-brand page-scroll"><i class="fa fa-quote-right circle"></i> Quotania</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a class="page-scroll" href="#share">Share My Quote</a></li>
+			</ul>
+		</div>
+	</nav>
+	<section class="main" id="main">
+		<div class="main-body">
+			<div class="container">
+				<div class="row">
+					<div class="column-md-8 column-md-offset-2">
+						<h3 class="quote" ng-bind="quote.quo"></h3>
+						<p class="author">- <span ng-bind="quote.auth"></span></p>
+						<div class="container">
+							<div class="row main-nav">
+								<div class="column-md-6 column-md-offset-3">
+									<a href="#" class="btn btn-circle">
+			                            <i class="fa fa-angle-double-left animated"></i>
+			                        </a>
+			                        <a href="#" class="btn btn-circle">
+			                            <i class="fa fa-heart animated"></i><span class="number_love">1200</span>
+			                        </a>
+									<a href="#" class="btn btn-circle">
+			                            <i class="fa fa-angle-double-right animated"></i>
+			                        </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#share">Share My Quotes</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+	<section id="share" class="container share-section text-center">
+		<form>
+			<h3>Share your quote and let the world know!</h3>
+			<div class="form-group">
+				<label for="quote">Quote</label>
+				<input type="text" name="quote" class="form-control" id="quote" placeholder="Your quote here" ng-model='submit.quo'>
+			</div>
+			<div class="form-group">
+				<label for="author">Author</label>
+				<input type="text" name="author" class="form-control" id="author" placeholder="The author here" ng-model='submit.auth'>
+			</div>
+			<button class="btn btn-default" ng-click='submit()'>Share</button>
+			<div class="alert alert-info" style="margin: 20px 0px;" ng-show="submitStatus == 1">
+				<strong>Success!</strong> Thanks for sharing with us
+			</div>
+			<div class="alert alert-danger" style="margin: 20px 0px;" ng-show="submitStatus == -1">
+				<strong>Oops!</strong> There is a problem sharing your quote
+			</div>
+		</form>
+	</section>
 
-    <!-- Intro Header -->
-    <header class="intro">
-        <div class="intro-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h5 class="brand-heading">Grayscale</h5>
-                        <p class="intro-text">A free, responsive, one page Bootstrap theme.
-                            <br>Created by Start Bootstrap.</p>
-                        <a href="#about" class="btn btn-circle page-scroll">
-                            <i class="fa fa-angle-double-down animated"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Share Section -->
-    <section id="share" class="container content-section text-center">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Share My Quotes</h2>
-                <form>
-                    <input type="text" name="quote" placeholder="Your quotes here"><br>
-                    <input type="text" name="author" placeholder="The author"><br>
-                    <input type="submit" name="submit" class="btn"><br>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- jQuery -->
+	<!-- jQuery -->
     <script src="vendor/jquery/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -95,6 +93,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 
     <!-- Theme JavaScript -->
-    <script src="js/grayscale.js"></script>
+    <script src="js/quotania.js"></script>
+
+    <!-- AngularJS App -->
+    <script type="text/javascript" src="js/quotaniaApp.js"></script>
 </body>
 </html>
