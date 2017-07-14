@@ -9,21 +9,22 @@
     <title>Quotania</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="css/quotania.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/quotania.css')}}">
     
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 </head>
 <body ng-app="quotania" ng-controller="quotController">
 
+	<!-- Navigation Bar -->
 	<nav role="navigation" class="navbar navbar-fixed-top navbar-custom">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -34,7 +35,9 @@
 			</ul>
 		</div>
 	</nav>
-	<section class="main" id="main">
+
+	<!-- Section for exploring quotes -->
+	<section class="main" id="main" style="background: url({{url_for('static', filename = 'img/intro-bg.jpg')}}) no-repeat bottom center scroll;">
 		<div class="main-body">
 			<div class="container">
 				<div class="row">
@@ -62,6 +65,7 @@
 		</div>
 	</section>
 
+	<!-- Section for sharing quotes -->
 	<section id="share" class="container share-section text-center">
 		<form>
 			<h3>Share your quote and let the world know!</h3>
@@ -84,18 +88,23 @@
 	</section>
 
 	<!-- jQuery -->
-    <script src="vendor/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename = 'vendor/jquery/jquery.js')}}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename = 'vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Variables from jinja -->
+    <script type="text/javascript">
+    	var submit_quote_url = "{{ url_for('submit_quote') }}";
+    </script>
 
     <!-- Theme JavaScript -->
-    <script src="js/quotania.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename = 'js/quotania.js')}}"></script>
 
     <!-- AngularJS App -->
-    <script type="text/javascript" src="js/quotaniaApp.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename = 'js/quotaniaApp.js')}}"></script>
 </body>
 </html>
