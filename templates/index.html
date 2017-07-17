@@ -22,7 +22,7 @@
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 </head>
-<body ng-app="quotania" ng-controller="quotController">
+<body ng-app="quotania">
 
 	<!-- Navigation Bar -->
 	<nav role="navigation" class="navbar navbar-fixed-top navbar-custom">
@@ -37,7 +37,7 @@
 	</nav>
 
 	<!-- Section for exploring quotes -->
-	<section class="main" id="main" style="background: url({{url_for('static', filename = 'img/intro-bg.jpg')}}) no-repeat bottom center scroll;">
+	<section class="main" id="main" style="background: url({{url_for('static', filename = 'img/intro-bg.jpg')}}) no-repeat bottom center scroll;" ng-controller="viewController">
 		<div class="main-body">
 			<div class="container">
 				<div class="row">
@@ -66,7 +66,7 @@
 	</section>
 
 	<!-- Section for sharing quotes -->
-	<section id="share" class="container share-section text-center">
+	<section id="share" class="container share-section text-center" ng-controller="submitController">
 		<form>
 			<h3>Share your quote and let the world know!</h3>
 			<div class="form-group">
@@ -78,11 +78,15 @@
 				<input type="text" name="author" class="form-control" id="author" placeholder="The author here" ng-model='submit.auth'>
 			</div>
 			<button class="btn btn-default" ng-click='submit()'>Share</button>
+
 			<div class="alert alert-info" style="margin: 20px 0px;" ng-show="submitStatus == 1">
 				<strong>Success!</strong> Thanks for sharing with us
 			</div>
 			<div class="alert alert-danger" style="margin: 20px 0px;" ng-show="submitStatus == -1">
 				<strong>Oops!</strong> There is a problem sharing your quote
+			</div>
+			<div class="alert alert-warning" style="margin: 20px 0px;" ng-show="submitStatus == 2">
+				<strong>Attention!</strong> Please fill all field
 			</div>
 		</form>
 	</section>
@@ -99,6 +103,7 @@
     <!-- Variables from jinja -->
     <script type="text/javascript">
     	var submit_quote_url = "{{ url_for('submit_quote') }}";
+    	var get_quote_after_url = "{{ url_for('get_quote_after') }}";
     </script>
 
     <!-- Theme JavaScript -->
