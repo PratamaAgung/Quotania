@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/quotania.css')}}">
     
     <!-- AngularJS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" type='text/javascript'></script>
 </head>
 <body ng-app="quotania">
 
@@ -47,13 +47,13 @@
 						<div class="container">
 							<div class="row main-nav">
 								<div class="column-md-6 column-md-offset-3">
-									<a href="#" class="btn btn-circle">
+									<a class="btn btn-circle">
 			                            <i class="fa fa-angle-double-left animated" ng-click="before()"></i>
 			                        </a>
-			                        <a href="#" class="btn btn-circle" ng-click="like()">
+			                        <a class="btn btn-circle" ng-click="like()">
 			                            <i class="fa fa-heart animated"></i><span class="number_love" ng-bind = "quote.nbLike"></span>
 			                        </a>
-									<a href="#" class="btn btn-circle">
+									<a class="btn btn-circle">
 			                            <i class="fa fa-angle-double-right animated" ng-click="next()"></i>
 			                        </a>
 								</div>
@@ -107,6 +107,7 @@
     	var init_quote_url = "{{ url_for('get_initial_quote') }}";
     	var next_quote_url = "{{ url_for('get_next_quote') }}";
     	var before_quote_url = "{{ url_for('get_before_quote') }}";
+    	var like_url = "{{ url_for('like_quote') }}";
     </script>
 
     <!-- Theme JavaScript -->

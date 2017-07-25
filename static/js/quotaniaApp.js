@@ -42,6 +42,7 @@ quotApp.controller('viewController', function($scope, $http){
 			currentQuoteId = response.data.id;
 		}
 	});
+	$scope.showQuote = true;
 
 	$scope.next = function() {
 		$http({
@@ -50,6 +51,7 @@ quotApp.controller('viewController', function($scope, $http){
 			params : {id : currentQuoteId}
 		}).then(function(response) {
 			if (response.data.quote != null){
+				$scope.showQuote = false;
 				$scope.quote = {
 					quo : response.data.quote,
 					auth : response.data.author,
@@ -76,5 +78,16 @@ quotApp.controller('viewController', function($scope, $http){
 			}
 		});
 	};
-	
+
+	$scope.like = function() {
+		$http({
+			url : like_url,
+			method : 'POST',
+			params : {id : currentQuoteId}
+		}).then(function(response) {
+			if (response.data.status) {
+				$scope.quote.nbLike++;
+			}
+		});
+	};
 });

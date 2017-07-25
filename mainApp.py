@@ -95,6 +95,17 @@ def get_before_quote():
 	else:
 		return jsonify({})
 
+@app.route('/like_quote', methods = ['POST'])
+def like_quote():
+	try:
+		liked = Quote.query.filter_by(id = request.args.get('id', '', type=int)).first()
+		liked.nbLike += 1
+		db.session.add(liked)
+		db.session.commit()
+		return jsonify(status = True)
+	except:
+		return jsonify(status = False)
+
 if __name__=="__main__":
     app.jinja_env.cache = {}
     app.run(host='0.0.0.0', port=2000)
