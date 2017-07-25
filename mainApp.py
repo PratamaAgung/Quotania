@@ -30,7 +30,7 @@ db.create_all()
 @app.route('/')
 @app.route('/index.html')
 def main_page():
-    return render_template('index.html')
+	return render_template('index.html')
 
 #routing for submit quote
 @app.route('/submit_quote', methods = ['GET', 'POST'])
@@ -51,6 +51,49 @@ def get_quote_after():
 	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
 	print(list(quotes))
 	return jsonify(status = True)
+
+@app.route('/get_initial_quote', methods= ['GET', 'POST'])
+def get_initial_quote():
+	best_quote = Quote.query.order_by(Quote.nbLike.desc()).first()
+	if(best_quote is not None):
+		return jsonify(quote = best_quote.quote, author = best_quote.author,
+			nbLike = best_quote.nbLike, id = best_quote.id)
+	else:
+		return jsonify({})
+
+@app.route('/get_next_quote', methods = ['POST'])
+def get_next_quote():
+	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
+	idx = 0
+	curr_id = request.args.get('id', '', type = int)
+	for quote in quotes:
+		if (quote.id == curr_id):
+			break
+		else:
+			idx += 1
+	if (idx+1 < len(quotes)):
+		next_quote = quotes[idx+1]
+		return jsonify(quote = next_quote.quote, author = next_quote.author,
+			nbLike = next_quote.nbLike, id = next_quote.id)
+	else:
+		return jsonify({})
+
+@app.route('/get_before_quote', methods = ['POST'])
+def get_before_quote():
+	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
+	idx = 0
+	curr_id = request.args.get('id', '', type = int)
+	for quote in quotes:
+		if (quote.id == curr_id):
+			break
+		else:
+			idx += 1
+	if (idx-1 >= 0):
+		before_quote = quotes[idx-1]
+		return jsonify(quote = before_quote.quote, author = before_quote.author,
+			nbLike = before_quote.nbLike, id = before_quote.id)
+	else:
+		return jsonify({})
 
 if __name__=="__main__":
     app.jinja_env.cache = {}

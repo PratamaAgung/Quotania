@@ -48,13 +48,13 @@
 							<div class="row main-nav">
 								<div class="column-md-6 column-md-offset-3">
 									<a href="#" class="btn btn-circle">
-			                            <i class="fa fa-angle-double-left animated"></i>
+			                            <i class="fa fa-angle-double-left animated" ng-click="before()"></i>
 			                        </a>
-			                        <a href="#" class="btn btn-circle">
-			                            <i class="fa fa-heart animated"></i><span class="number_love">1200</span>
+			                        <a href="#" class="btn btn-circle" ng-click="like()">
+			                            <i class="fa fa-heart animated"></i><span class="number_love" ng-bind = "quote.nbLike"></span>
 			                        </a>
 									<a href="#" class="btn btn-circle">
-			                            <i class="fa fa-angle-double-right animated"></i>
+			                            <i class="fa fa-angle-double-right animated" ng-click="next()"></i>
 			                        </a>
 								</div>
 							</div>
@@ -67,15 +67,15 @@
 
 	<!-- Section for sharing quotes -->
 	<section id="share" class="container share-section text-center" ng-controller="submitController">
-		<form>
+		<form name = "formQuote">
 			<h3>Share your quote and let the world know!</h3>
 			<div class="form-group">
 				<label for="quote">Quote</label>
-				<input type="text" name="quote" class="form-control" id="quote" placeholder="Your quote here" ng-model='submit.quo'>
+				<input type="text" name="quote" class="form-control" name="quote" placeholder="Your quote here" ng-model='submit.quo'>
 			</div>
 			<div class="form-group">
 				<label for="author">Author</label>
-				<input type="text" name="author" class="form-control" id="author" placeholder="The author here" ng-model='submit.auth'>
+				<input type="text" name="author" class="form-control" name="author" placeholder="The author here" ng-model='submit.auth'>
 			</div>
 			<button class="btn btn-default" ng-click='submit()'>Share</button>
 
@@ -104,6 +104,9 @@
     <script type="text/javascript">
     	var submit_quote_url = "{{ url_for('submit_quote') }}";
     	var get_quote_after_url = "{{ url_for('get_quote_after') }}";
+    	var init_quote_url = "{{ url_for('get_initial_quote') }}";
+    	var next_quote_url = "{{ url_for('get_next_quote') }}";
+    	var before_quote_url = "{{ url_for('get_before_quote') }}";
     </script>
 
     <!-- Theme JavaScript -->
