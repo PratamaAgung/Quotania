@@ -16,3 +16,32 @@ Run the application by executing command
 python3 mainApp.py
 ```
 Quotania will launch in localhost on port 2000.
+
+## Milestone
+### Implementasi 1
+Telah dibuat :
+- Raw html + css
+
+Rencana pengerjaan :
+- Add AngularJS App
+- Push Quote into DB
+- Add next and preceding function (for changing quote)
+- Add like quote function
+
+### Implementasi 2
+Telah dibuat:
+- Raw html + css
+- Add AngularJS app
+- Push Quote into DB
+
+Rencana pengerjaan:
+- Add next and preceding function (for changing quote)
+- Add like quote function
+
+### Final
+Done:
+- Raw html + css
+- Add AngularJS app
+- Push Quote into DB
+- Add next and preceding function (for changing quote)
+- Add like quote function
