@@ -1,8 +1,14 @@
-var currentQuoteId = 0;
+// Author 		: Pratamamia Agung P
+// Description	: Module for running angularJS application
 
+var currentQuoteId = 0;
 var quotApp = angular.module('quotania', []);
+var no_data = false;
+//Controller for submitting quotes
 quotApp.controller('submitController', function($scope, $http){
 	$scope.submitStatus = 0;
+
+	//Function for submit a quote
 	$scope.submit = function() {
 		if (!$scope.submit.quo.length || !$scope.submit.auth.length) {
 			$scope.submitStatus = 2;
@@ -15,6 +21,9 @@ quotApp.controller('submitController', function($scope, $http){
 		        }).then(function(response) {
 		        	if (response.data.status){
 		        		$scope.submitStatus = 1;
+		        		if (no_data == true){
+		        			location.reload();
+		        		}
 		        	} else {
 		        		$scope.submitStatus = -1;
 		        	}
@@ -28,7 +37,10 @@ quotApp.controller('submitController', function($scope, $http){
 	};
 });
 
+//Controller for handling viewing function
 quotApp.controller('viewController', function($scope, $http){
+	//Initializer
+	$scope.showQuote = true;
 	$http({
 		url : init_quote_url,
 		method : 'GET'
@@ -39,11 +51,16 @@ quotApp.controller('viewController', function($scope, $http){
 				auth : response.data.author,
 				nbLike : response.data.nbLike
 			};
+			$scope.showBefore = response.data.before;
+			$scope.showNext = response.data.next;
 			currentQuoteId = response.data.id;
+		} else {
+			$scope.showQuote = false;
+			no_data = true;
 		}
 	});
-	$scope.showQuote = true;
 
+	//Function for getting next quote in ranking
 	$scope.next = function() {
 		$http({
 			url : next_quote_url,
@@ -51,17 +68,19 @@ quotApp.controller('viewController', function($scope, $http){
 			params : {id : currentQuoteId}
 		}).then(function(response) {
 			if (response.data.quote != null){
-				$scope.showQuote = false;
 				$scope.quote = {
 					quo : response.data.quote,
 					auth : response.data.author,
 					nbLike : response.data.nbLike
 				};
+				$scope.showBefore = response.data.before;
+				$scope.showNext = response.data.next;
 				currentQuoteId = response.data.id;
 			}
 		});
 	};
 	
+	//Function for getting preceding quote in ranking
 	$scope.before = function() {
 		$http({
 			url : before_quote_url,
@@ -74,11 +93,14 @@ quotApp.controller('viewController', function($scope, $http){
 					auth : response.data.author,
 					nbLike : response.data.nbLike
 				};
+				$scope.showBefore = response.data.before;
+				$scope.showNext = response.data.next;
 				currentQuoteId = response.data.id;
 			}
 		});
 	};
 
+	//Function for handling like
 	$scope.like = function() {
 		$http({
 			url : like_url,
@@ -90,4 +112,20 @@ quotApp.controller('viewController', function($scope, $http){
 			}
 		});
 	};
+
+	$scope.refreshnavigator = function() {
+		$http({
+			url : refresh_navigator_url,
+			method : 'POST',
+			params : {id : currentQuoteId}
+		}).then(function(response) {
+			$scope.quote.nbLike = response.data.nbLike;
+			$scope.showNext = response.data.next;
+			$scope.showBefore = response.data.before;
+		});
+	}
+
+	setInterval(function(){
+		$scope.refreshnavigator();
+	}, 1000);
 });

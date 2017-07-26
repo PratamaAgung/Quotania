@@ -1,3 +1,8 @@
+'''
+Author 		: Pratamamia Agung P
+Description	: Module for running backend server
+'''
+
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify
 import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -46,21 +51,21 @@ def submit_quote():
 
 
 #ruoting for getting quote
-@app.route('/get_quote_after', methods = ['GET', 'POST'])
-def get_quote_after():
-	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
-	print(list(quotes))
-	return jsonify(status = True)
-
 @app.route('/get_initial_quote', methods= ['GET', 'POST'])
 def get_initial_quote():
-	best_quote = Quote.query.order_by(Quote.nbLike.desc()).first()
-	if(best_quote is not None):
+	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
+	if(len(quotes) > 0):
+		best_quote = quotes[0]
+		if(len(quotes) > 1):
+			next = True
+		else:
+			next = False
 		return jsonify(quote = best_quote.quote, author = best_quote.author,
-			nbLike = best_quote.nbLike, id = best_quote.id)
+			nbLike = best_quote.nbLike, id = best_quote.id, before = False, next = next)
 	else:
 		return jsonify({})
 
+#routing for get next quote
 @app.route('/get_next_quote', methods = ['POST'])
 def get_next_quote():
 	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
@@ -73,11 +78,17 @@ def get_next_quote():
 			idx += 1
 	if (idx+1 < len(quotes)):
 		next_quote = quotes[idx+1]
+		if (idx + 2 < len(quotes)):
+			next = True
+		else:
+			next = False
+
 		return jsonify(quote = next_quote.quote, author = next_quote.author,
-			nbLike = next_quote.nbLike, id = next_quote.id)
+			nbLike = next_quote.nbLike, id = next_quote.id, next = next, before = True)
 	else:
 		return jsonify({})
 
+#roting for get preceding qoute
 @app.route('/get_before_quote', methods = ['POST'])
 def get_before_quote():
 	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
@@ -90,11 +101,16 @@ def get_before_quote():
 			idx += 1
 	if (idx-1 >= 0):
 		before_quote = quotes[idx-1]
+		if (idx - 2 >=0):
+			before = True
+		else:
+			before = False
 		return jsonify(quote = before_quote.quote, author = before_quote.author,
-			nbLike = before_quote.nbLike, id = before_quote.id)
+			nbLike = before_quote.nbLike, id = before_quote.id, next = True, before = before)
 	else:
 		return jsonify({})
 
+#routing for like a quote
 @app.route('/like_quote', methods = ['POST'])
 def like_quote():
 	try:
@@ -106,6 +122,27 @@ def like_quote():
 	except:
 		return jsonify(status = False)
 
+@app.route('/refresh_navigator', methods = ['POST'])
+def refresh_navigator():
+	quotes = Quote.query.order_by(Quote.nbLike.desc()).all()
+	idx = 0
+	curr_id = request.args.get('id', '', type = int)
+	for quote in quotes:
+		if (quote.id == curr_id):
+			break
+		else:
+			idx += 1
+	if (idx-1 >= 0):
+		before = True
+	else:
+		before = False
+	if (idx + 1 < len(quotes)):
+		next = True
+	else:
+		next = False
+	return jsonify(nbLike = quotes[idx].nbLike, next = next, before = before)
+
+#command to run backend application
 if __name__=="__main__":
     app.jinja_env.cache = {}
     app.run(host='0.0.0.0', port=2000)

@@ -41,24 +41,28 @@
 		<div class="main-body">
 			<div class="container">
 				<div class="row">
-					<div class="column-md-8 column-md-offset-2">
+					<div class="column-md-8 column-md-offset-2" ng-show="showQuote">
 						<h3 class="quote" ng-bind="quote.quo"></h3>
 						<p class="author">- <span ng-bind="quote.auth"></span></p>
 						<div class="container">
 							<div class="row main-nav">
 								<div class="column-md-6 column-md-offset-3">
 									<a class="btn btn-circle">
-			                            <i class="fa fa-angle-double-left animated" ng-click="before()"></i>
+			                            <i class="fa fa-angle-double-left animated" ng-click="before()" ng-show="showBefore"></i>
 			                        </a>
 			                        <a class="btn btn-circle" ng-click="like()">
 			                            <i class="fa fa-heart animated"></i><span class="number_love" ng-bind = "quote.nbLike"></span>
 			                        </a>
 									<a class="btn btn-circle">
-			                            <i class="fa fa-angle-double-right animated" ng-click="next()"></i>
+			                            <i class="fa fa-angle-double-right animated" ng-click="next()" ng-show="showNext"></i>
 			                        </a>
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="column-md-8 column-md-offset-2" ng-show="!showQuote">
+						<p class="author">No quote available <br> Help us by sharing your quote!</p>
+						<a href="#share" class="page-scroll">Share my quote</a>
 					</div>
 				</div>
 			</div>
@@ -103,11 +107,11 @@
     <!-- Variables from jinja -->
     <script type="text/javascript">
     	var submit_quote_url = "{{ url_for('submit_quote') }}";
-    	var get_quote_after_url = "{{ url_for('get_quote_after') }}";
     	var init_quote_url = "{{ url_for('get_initial_quote') }}";
     	var next_quote_url = "{{ url_for('get_next_quote') }}";
     	var before_quote_url = "{{ url_for('get_before_quote') }}";
     	var like_url = "{{ url_for('like_quote') }}";
+    	var refresh_navigator_url = "{{ url_for('refresh_navigator') }}";
     </script>
 
     <!-- Theme JavaScript -->
